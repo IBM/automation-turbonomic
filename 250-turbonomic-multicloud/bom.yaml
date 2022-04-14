@@ -1,0 +1,54 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 250-turbonomic-multicloud
+  labels:
+    type: software
+    code: '250'
+  annotations:
+    displayName: Turbonomic on OpenShift - Multi Cloud
+    description: >-
+      GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and
+      IBM Cloud
+spec:
+  modules:
+    - name: gitops-namespace
+      alias: turbo_namespace
+      version: v1.11.1
+      default: true
+      variables:
+        - name: name
+          value: turbonomic
+    - name: gitops-ocp-turbonomic
+      alias: gitops-ocp-turbonomic
+      version: v2.1.4
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.15.3
+  variables:
+    - name: gitops-ocp-turbonomic_storage_class_name
+      type: string
+      description: >-
+        Name of the block storage class to use - if multizone deployment then
+        waitforfirstconsumer must be set on storageclass binding mode
+    - name: gitops_repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops_repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops_repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true

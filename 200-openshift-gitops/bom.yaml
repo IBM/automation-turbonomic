@@ -1,0 +1,77 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-openshift-gitops
+  labels:
+    type: software
+    code: '200'
+  annotations:
+    displayName: OpenShift GitOps Bootstrap
+    description: >-
+      Provisions OpenShift GitOps (ArgoCD) into an existing cluster and
+      bootstraps it to a gitops repository
+spec:
+  modules:
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.15.3
+    - name: argocd-bootstrap
+      alias: argocd-bootstrap
+      version: v1.6.6
+      variables:
+        - name: create_webhook
+          value: true
+        - name: prefix
+          value: turbo
+    - name: gitops-cluster-config
+      alias: gitops-cluster-config
+      version: v1.0.0
+    - name: gitops-console-link-job
+      alias: gitops-console-link-job
+      version: v1.4.5
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      version: v1.11.1
+      default: true
+      variables:
+        - name: name
+          value: toolkit
+    - name: ocp-login
+      alias: cluster
+      version: v1.2.8
+    - name: olm
+      version: v1.3.2
+    - name: sealed-secret-cert
+      version: v1.0.0
+  variables:
+    - name: gitops_repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops_repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops_repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true
+    - name: gitops-cluster-config_banner_text
+      type: string
+      description: The text that will appear in the top banner in the cluster
+    - name: server_url
+      type: string
+      description: The url for the OpenShift api
+    - name: cluster_login_token
+      type: string
+      description: Token used for authentication
+      sensitive: true
