@@ -78,8 +78,8 @@ The turbonomic automation is broken into what we call layers of automation or bu
 
 | BOM ID | Name                                                           | Description                                                                                                                                                                                                                                   | Run Time |
 |--------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| 200    | [200 - ArgoCD BootStrap](./200-argocd-bootstrap)               | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |
-| 202    | [202 - IBM Cloud Storage](./202-ibmcloud-storage-class)        | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Turbonomic                                                                  | 10 Mins |
+| 200    | [200 - OpenShift Gitops](./200-openshift-gitops)               | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |
+| 202    | [202 - IBM Cloud Storage](./202-turbonomic-ibmcloud-storage-class)        | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Turbonomic                                                                  | 10 Mins |
 | 250 | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
@@ -114,9 +114,8 @@ Steps:
      ```
      git clone https://github.com/IBM/automation-turbonomic
      ```
-2. Navigate into the automation-turbonomic folder using your command line.
-a.	The README.md has a comprehensive instructions on how to install this into other cloud environments than TechZone this document focuses in on getting it running in a TechZone requested environment. 
-3. Next you need to set-up your credentials.properties file. This will enable a secure access to your cluster.
+2. Navigate into the automation-turbonomic folder using your command line.  The README.md has a comprehensive instructions on how to install this into other cloud environments.  This document focuses on running in a TechZone requested environment. 
+4. Next you need to set-up your credentials.properties file. This will enable a secure access to your cluster.
 
     ```
     cp credentials.template credentials.properties
@@ -193,7 +192,7 @@ a.	The README.md has a comprehensive instructions on how to install this into ot
       gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
       ```
 
-15. Change the `storage_class_name` value to `managed_premium` for **Azure** and other values for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment.
+15. Change the `storage_class_name` value to `managed_premium` for **Azure** and your prefered block storage provider such as `gp2` for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment.
 16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab. 
 17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization that the GitOps Repository will be created in. Click on top right menu and selection Your Profile this will take you to your default organization. 
 18. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Turbonomic is installed into the cluster.
@@ -223,7 +222,7 @@ a.	The README.md has a comprehensive instructions on how to install this into ot
     terraform apply --auto-approve
     ```
 
-26.	Now GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
+26.	Now GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that enables OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
 
     ```
     cd 250-turbonomic-multicloud
@@ -276,6 +275,6 @@ There are currently no troubleshooting topics at this point.
 
 ## How to Generate this repository from teh source Bill of Materials.
 
-This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want uppstream releases or versions you can use `iascable` to generate the terraform templates tyou require.
+This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want uppstream releases or versions you can use `iascable` to generate the terraform templates you require.
 
 > The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
