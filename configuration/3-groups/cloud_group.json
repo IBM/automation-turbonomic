@@ -1,0 +1,17 @@
+{
+    "displayName": "Cloud_Group",
+    "className": "Group",
+    "groupType": "BusinessAccount",
+    "environmentType": "CLOUD",
+    "isStatic": false,
+    "logicalOperator": "AND",
+    "criteriaList": [
+      {
+        "expVal": "AWS|AZURE",
+        "expType": "EQ",
+        "filterType": "businessAccountCloudProvider",
+        "caseSensitive": false
+      }
+    ],
+    "memberUuidList": []
+ }

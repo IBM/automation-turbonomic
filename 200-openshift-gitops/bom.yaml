@@ -17,7 +17,7 @@ spec:
       version: v1.15.3
     - name: argocd-bootstrap
       alias: argocd-bootstrap
-      version: v1.6.7
+      version: v1.6.8
       variables:
         - name: create_webhook
           value: true
@@ -38,11 +38,11 @@ spec:
           value: toolkit
     - name: ocp-login
       alias: cluster
-      version: v1.2.8
+      version: v1.2.10
     - name: olm
       version: v1.3.2
     - name: sealed-secret-cert
-      version: v1.0.0
+      version: v1.0.1
   variables:
     - name: gitops_repo_host
       type: string

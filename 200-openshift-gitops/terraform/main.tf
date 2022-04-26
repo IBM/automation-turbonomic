@@ -1,5 +1,5 @@
 module "argocd-bootstrap" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.6.7"
+  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.6.8"
 
   bootstrap_path = module.gitops_repo.bootstrap_path
   bootstrap_prefix = var.argocd-bootstrap_bootstrap_prefix
@@ -16,7 +16,7 @@ module "argocd-bootstrap" {
   sealed_secret_private_key = module.sealed-secret-cert.private_key
 }
 module "cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.2.8"
+  source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.2.10"
 
   cluster_version = var.cluster_cluster_version
   ingress_subdomain = var.cluster_ingress_subdomain
@@ -70,7 +70,7 @@ module "olm" {
   cluster_version = module.cluster.platform.version
 }
 module "sealed-secret-cert" {
-  source = "github.com/cloud-native-toolkit/terraform-util-sealed-secret-cert?ref=v1.0.0"
+  source = "github.com/cloud-native-toolkit/terraform-util-sealed-secret-cert?ref=v1.0.1"
 
   cert = var.sealed-secret-cert_cert
   cert_file = var.sealed-secret-cert_cert_file
