@@ -192,7 +192,7 @@ Steps:
       gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
       ```
 
-15. Change the `storage_class_name` value to `managed_premium` for **Azure** and your prefered block storage provider such as `gp2` for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment.
+15. Change the `storage_class_name` value to `managed_premium` for **Azure** and your prefered block storage provider such as `gp2` for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment, the default name for the storage class created is `ibmc-vpc-block-mzr` and this would be the name used for IBM Cloud deployment in the `storage_class_name` value.
 16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab. 
 17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization that the GitOps Repository will be created in. Click on top right menu and selection Your Profile this will take you to your default organization. 
 18. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Turbonomic is installed into the cluster.
