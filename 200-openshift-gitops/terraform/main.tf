@@ -1,5 +1,5 @@
 module "argocd-bootstrap" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.6.8"
+  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.6.9"
 
   bootstrap_path = module.gitops_repo.bootstrap_path
   bootstrap_prefix = var.argocd-bootstrap_bootstrap_prefix
@@ -28,7 +28,7 @@ module "cluster" {
   tls_secret_name = var.cluster_tls_secret_name
 }
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.15.3"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.15.4"
 
   branch = var.gitops_repo_branch
   gitops_namespace = var.gitops_repo_gitops_namespace

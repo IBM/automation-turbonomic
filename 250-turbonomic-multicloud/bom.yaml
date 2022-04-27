@@ -24,7 +24,7 @@ spec:
       version: v2.1.4
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.15.3
+      version: v1.15.4
   variables:
     - name: gitops-ocp-turbonomic_storage_class_name
       type: string

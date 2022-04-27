@@ -41,7 +41,7 @@ echo "Setting up workspace in '${WORKSPACE_DIR}'"
 echo "*****"
 
 
-cp "${SCRIPT_DIR}/terraform.tfvars.template" "${SCRIPT_DIR}/terraform.tfvars"
+#cp "${SCRIPT_DIR}/terraform.tfvars.template" "${SCRIPT_DIR}/terraform.tfvars"
 ln -s "${SCRIPT_DIR}/terraform.tfvars" ./terraform.tfvars
 
 echo "Setting up workspace from '${TEMPLATE_FLAVOR}' template"

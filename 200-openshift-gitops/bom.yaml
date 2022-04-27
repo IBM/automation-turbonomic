@@ -14,10 +14,10 @@ spec:
   modules:
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.15.3
+      version: v1.15.4
     - name: argocd-bootstrap
       alias: argocd-bootstrap
-      version: v1.6.8
+      version: v1.6.9
       variables:
         - name: create_webhook
           value: true

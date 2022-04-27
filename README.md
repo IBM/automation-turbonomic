@@ -56,7 +56,7 @@ To use Turbonimic you are required to install a license key. For Proof of Concep
 
 For Partners follow these steps:
 
-1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog]https://www.ibm.com/partnerworld/program/benefits/software-access-catalog)
+1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog](https://www.ibm.com/partnerworld/program/benefits/software-access-catalog)
 2. You can search the software catalog for  **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English**,
 3. Download the package which contains license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`
 5. This file is covered by **Turbonomic ARM P/N are currently available under IBM PPA terms and conditions**
@@ -113,8 +113,9 @@ Steps:
      ```
      git clone https://github.com/IBM/automation-turbonomic
      ```
-2. Navigate into the automation-turbonomic folder using your command line.  The README.md has a comprehensive instructions on how to install this into other cloud environments.  This document focuses on running in a TechZone requested environment. 
-4. Next you need to set-up your credentials.properties file. This will enable a secure access to your cluster.
+2. Navigate into the automation-turbonomic folder using your command line.
+   a.	The README.md has a comprehensive instructions on how to install this into other cloud environments than TechZone. This document focuses on getting it running in a TechZone requested environment.
+3. Next you will need to set-up your credentials.properties file. This will enable a secure access to your cluster.
 
     ```
     cp credentials.template credentials.properties
@@ -191,9 +192,9 @@ Steps:
       gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
       ```
 
-15. Change the `storage_class_name` value to `managed_premium` for **Azure** and your prefered block storage provider such as `gp2` for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment, the default name for the storage class created is `ibmc-vpc-block-mzr` and this would be the name used for IBM Cloud deployment in the `storage_class_name` value.
-16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab. 
-17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization that the GitOps Repository will be created in. Click on top right menu and selection Your Profile this will take you to your default organization. 
+15. Change the `storage_class_name` value to `managed_premium` for **Azure** and other values for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment.
+16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
+17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.
 18. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Turbonomic is installed into the cluster.
 19. You can change the Banner text to something useful for your client project or demo.
 20. Save the `terraform.tfvars` file
@@ -221,7 +222,7 @@ Steps:
  terraform apply --auto-approve
  ```
 
-26.	Now GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that enables OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
+26.	Now that the GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
 
  ```
  cd 250-turbonomic-multicloud
@@ -270,9 +271,9 @@ This concludes the instructions for installing **Turbonomic* on AWS, Azure, and 
 
 ## Troubleshooting
 
-Currently, there are no troubleshooting topics.
+Currently there are no troubleshooting topics.
 
-## How to Generate this repository from the source Bill of Materials.
+## How to Generate this repository from teh source Bill of Materials.
 
 This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
 

@@ -19,7 +19,7 @@ spec:
           value: turbonomic
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.15.3
+      version: v1.15.4
     - name: gitops-storageclass
       alias: storage
       version: v1.2.3
