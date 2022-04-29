@@ -21,7 +21,7 @@ spec:
           value: turbonomic
     - name: gitops-ocp-turbonomic
       alias: gitops-ocp-turbonomic
-      version: v2.1.4
+      version: v2.1.5
     - name: gitops-repo
       alias: gitops_repo
       version: v1.15.4

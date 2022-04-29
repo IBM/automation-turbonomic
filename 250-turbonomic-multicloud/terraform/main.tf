@@ -15,7 +15,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "gitops-ocp-turbonomic" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-ocp-turbonomic?ref=v2.1.4"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ocp-turbonomic?ref=v2.1.5"
 
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
