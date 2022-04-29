@@ -8,7 +8,7 @@ If the operator is unable to pull the image due to a docker rate limit error fro
 ### Supported Component Selector Probe Types 
 Use these names in the `probes` variable to define additional probes as needed for your environment:
 ```
-"kubeturbo","instana","openshiftingress", "aws", "azure", "prometheus", "servicenow", "tomcat", "jvm", "websphere", "weblogic"
+"kubeturbo","instana","openshiftingress", "aws", "azure", "prometheus", "servicenow", "tomcat", "jvm", "websphere", "weblogic", "ui"
 ```
 ## Supported platforms
 
