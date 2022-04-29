@@ -1,0 +1,17 @@
+{
+"displayName":"<put display name here>",
+"category":"Applications and Databases",
+"inputFields":[
+{
+"displayName":"API Token",
+"name":"apiToken",
+"value":"<put your API Token here>"
+},
+{
+"displayName":"Hostname or IP Address",
+"name":"address",
+"value":"<put your Instana hostname here>"
+}
+],
+"type":"Instana"
+}

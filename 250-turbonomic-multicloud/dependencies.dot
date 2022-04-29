@@ -1,0 +1,9 @@
+digraph {
+    rankdir="BT"
+    "turbo_namespace (gitops-namespace)" -> "gitops_repo (gitops-repo)"
+"turbo_namespace (gitops-namespace)"
+"gitops_repo (gitops-repo)"
+"gitops-ocp-turbonomic (gitops-ocp-turbonomic)" -> "gitops_repo (gitops-repo)"
+"gitops-ocp-turbonomic (gitops-ocp-turbonomic)" -> "turbo_namespace (gitops-namespace)"
+"gitops-ocp-turbonomic (gitops-ocp-turbonomic)"
+  }

@@ -1,0 +1,14 @@
+{
+    "displayName": "observer",
+    "username": "observer",
+    "password": "turbo4test",
+    "roleName": "OPERATIONAL_OBSERVER",
+    "roles": [
+      {
+        "name": "OPERATIONAL_OBSERVER"
+      }
+    ],
+    "loginProvider": "Local",
+    "type": "DedicatedCustomer",
+    "showSharedUserSC": false
+}

@@ -1,0 +1,32 @@
+{
+    "displayName": "AWS-GSILab",
+    "category": "Public Cloud",
+    "inputFields": [
+      {
+        "displayName": "Custom Target Name",
+        "name": "address",
+        "value": "AWS-GSILab"
+      },
+      {
+        "displayName": "Account Type",
+        "name": "accountType",
+        "value": "Standard"
+      },
+      {
+        "displayName": "IAM Role",
+        "name": "iamRole",
+        "value": "false"
+      },
+      {
+        "displayName": "Access Key",
+        "name": "username",
+        "value": "<put your access key here>"
+      },
+      {
+        "displayName": "Secret Access Key",
+        "name": "password",
+        "value": "<put your secret access key here>"
+      }
+    ],
+    "type": "AWS"
+}

@@ -1,0 +1,16 @@
+*.properties
+.idea/
+.terraform/
+.tmp/
+*.tfstate
+gitops/
+*.tfstate.backup
+.kube/
+ssh-*
+terraform.tfvars
+*.iml
+
+
+workspace/*
+workspace-*/*
+credentials.properties

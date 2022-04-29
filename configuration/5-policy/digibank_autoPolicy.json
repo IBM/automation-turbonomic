@@ -1,0 +1,41 @@
+{
+    "displayName": "digibank-ec2",
+    "entityType": "BusinessApplication",
+    "scopes": [
+      {
+        "uuid": "285529052096992"
+      }
+    ],
+    "settingsManagers": [
+      {
+        "uuid": "marketsettingsmanager",
+        "displayName": "Operational Constraints",
+        "category": "Analysis",
+        "settings": [
+          {
+            "uuid": "responseTimeSLO",
+            "displayName": "Response Time SLO [ms]",
+            "value": "200.0",
+            "defaultValue": "2000.0",
+            "valueType": "NUMERIC",
+            "valueObjectType": "String",
+            "min": 1,
+            "max": 31536000794624,
+            "entityType": "BusinessApplication"
+          },
+          {
+            "uuid": "responseTimeSLOEnabled",
+            "displayName": "Enable Response Time SLO",
+            "value": "true",
+            "defaultValue": "false",
+            "valueType": "BOOLEAN",
+            "valueObjectType": "String",
+            "entityType": "BusinessApplication"
+          }
+        ]
+      }
+    ],
+    "disabled": false,
+    "readOnly": false,
+    "default": false
+  }

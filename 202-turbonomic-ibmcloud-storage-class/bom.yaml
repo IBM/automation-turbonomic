@@ -1,0 +1,64 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 202-turbonomic-ibmcloud-storage-class
+  labels:
+    type: software
+    code: '202'
+  annotations:
+    displayName: Turbonomic Storage Class - IBM Cloud
+    description: GitOps deployment of Storage Class for IBM Cloud OpenShift environment
+spec:
+  modules:
+    - name: gitops-namespace
+      alias: turbo_namespace
+      version: v1.11.1
+      default: true
+      variables:
+        - name: name
+          value: turbonomic
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.15.4
+    - name: gitops-storageclass
+      alias: storage
+      version: v1.2.3
+      variables:
+        - name: name
+          value: ibmc-vpc-block-mzr
+        - name: provisioner_name
+          value: vpc.block.csi.ibm.io
+        - name: parameter_list
+          value:
+            - key: classVersion
+              value: '1'
+            - key: csi.storage.k8s.io/fstype
+              value: ext4
+            - key: encrypted
+              value: 'false'
+            - key: profile
+              value: 10iops-tier
+            - key: sizeRange
+              value: '[10-2000]GiB]'
+  variables:
+    - name: gitops_repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops_repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops_repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true

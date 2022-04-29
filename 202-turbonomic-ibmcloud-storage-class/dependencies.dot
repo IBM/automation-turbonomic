@@ -1,0 +1,8 @@
+digraph {
+    rankdir="BT"
+    "turbo_namespace (gitops-namespace)" -> "gitops_repo (gitops-repo)"
+"turbo_namespace (gitops-namespace)"
+"gitops_repo (gitops-repo)"
+"storage (gitops-storageclass)" -> "gitops_repo (gitops-repo)"
+"storage (gitops-storageclass)"
+  }
