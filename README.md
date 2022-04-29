@@ -269,10 +269,11 @@ Steps:
 
 You can uninstall Turbonomic by running the Automation layers in reverse order for example :
 
-````
+```
 cd 200-bootstrap-gitops
 terraform destroy --auto-approve
 ...
+
 ```
 
 ## Summary
