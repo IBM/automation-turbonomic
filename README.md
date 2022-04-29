@@ -26,7 +26,7 @@ For each of these reference architecture, we have provided a detailed set of aut
 
 | Cloud Platform                                                                                                            | Automation and Documentation                                                                                                                                                                                  |   
 |---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [TechZone for IBMers and Partners](https://techzone.ibm.com/collection/turbonomic-automation-for-azure-aws-and-ibm-cloud) | You can provision ARO, ROSA and ROKS through IBM TechZone. This is only supported for IBMers and IBM Partners
+| [TechZone for IBMers and Partners](https://techzone.ibm.com/collection/turbonomic-automation-multicloud) | You can provision ARO, ROSA and ROKS through IBM TechZone. This is only supported for IBMers and IBM Partners
 | [IBM Cloud](https://cloud.ibm.com)                                                                                        | [IBM Cloud Quick Start](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/initial-version) </br> [IBM Cloud Standard](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/standard) |  
 | [AWS](https://aws.amazon.com/)                                                                                            | [AWS Quick Start](https://github.com/IBM/automation-aws-infra-openshift/tree/1-quick-start) </br> [AWS Standard - Coming soon]()                                                                              |
 | [Azure](https://portal.azure.com/#home)                                                                                   | [Azure Quick Start - Coming soon]()                                                                                 |                                                                                             | 
@@ -293,7 +293,7 @@ Follow these steps:
 - Delete the resource that was stuck: `oc delete xl xl-release -n turbonomic`
 - Go into **ArgoCD** instance and deleted the remaining argo applications
 
-## How to Generate this repository from teh source Bill of Materials.
+## How to Generate this repository from the source Bill of Materials.
 
 This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
 
