@@ -6,6 +6,9 @@
 ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
 gitops-ocp-turbonomic_storage_class_name="<your block storage on aws: gp2, on azure: managed-premium>"
 
+## gitops-ocp-turbonomic_storage_class_name: for IBM Cloud run 202 automation and uncomment this value and comment the line above
+#gitops-ocp-turbonomic_storage_class_name="ibmc-vpc-block-10iops-tier"
+
 ## gitops-repo_host: The host for the git repository.
 gitops_repo_host="github.com"
 

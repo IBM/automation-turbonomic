@@ -1,5 +1,5 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.15.4"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.16.0"
 
   branch = var.gitops_repo_branch
   gitops_namespace = var.gitops_repo_gitops_namespace

@@ -1,6 +1,6 @@
 # OCP Login
 
-Terraform module to log into a cluster and write the credentials into the kube config file.
+Terraform module to log into a cluster and write the credentials into the kube config file. The file path is output by the module.
 
 ## Software dependencies
 
