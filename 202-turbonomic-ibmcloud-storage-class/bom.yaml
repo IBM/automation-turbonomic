@@ -12,17 +12,17 @@ spec:
   modules:
     - name: gitops-namespace
       alias: turbo_namespace
-      version: v1.11.1
+      version: v1.11.2
       default: true
       variables:
         - name: name
           value: turbonomic
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.16.0
+      version: v1.18.1
     - name: gitops-storageclass
       alias: storage
-      version: v1.2.3
+      version: v1.2.4
       variables:
         - name: name
           value: ibmc-vpc-block-mzr
@@ -44,21 +44,22 @@ spec:
     - name: gitops_repo_host
       type: string
       description: The host for the git repository.
-    - name: gitops_repo_type
-      type: string
-      description: The type of the hosted git repository (github or gitlab).
+      defaultValue: ''
     - name: gitops_repo_org
       type: string
       description: The org/group where the git repository exists/will be provisioned.
+      defaultValue: ''
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+      defaultValue: ''
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      defaultValue: ''
+      sensitive: true
     - name: gitops_repo_repo
       type: string
       description: >-
         The short name of the repository (i.e. the part after the org/group
         name)
-    - name: gitops_repo_username
-      type: string
-      description: The username of the user with access to the repository
-    - name: gitops_repo_token
-      type: string
-      description: The personal access token used to access the repository
-      sensitive: true

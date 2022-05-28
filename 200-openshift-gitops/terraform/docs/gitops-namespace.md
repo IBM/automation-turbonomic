@@ -2,6 +2,7 @@
 
 Module to configure a GitOps repo to provision a namespace
 
+
 ## Software dependencies
 
 The module depends on the following software components:

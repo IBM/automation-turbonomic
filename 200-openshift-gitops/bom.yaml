@@ -14,31 +14,31 @@ spec:
   modules:
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.16.0
+      version: v1.18.1
     - name: argocd-bootstrap
       alias: argocd-bootstrap
-      version: v1.10.0
+      version: v1.12.0
       variables:
         - name: create_webhook
           value: true
         - name: prefix
-          value: turbo
+          value: maximo
     - name: gitops-cluster-config
       alias: gitops-cluster-config
       version: v1.0.0
     - name: gitops-console-link-job
       alias: gitops-console-link-job
-      version: v1.4.5
+      version: v1.4.6
     - name: gitops-namespace
       alias: toolkit_namespace
-      version: v1.11.1
+      version: v1.11.2
       default: true
       variables:
         - name: name
           value: toolkit
     - name: ocp-login
       alias: cluster
-      version: v1.2.12
+      version: v1.2.14
     - name: olm
       version: v1.3.2
     - name: sealed-secret-cert
@@ -47,24 +47,25 @@ spec:
     - name: gitops_repo_host
       type: string
       description: The host for the git repository.
-    - name: gitops_repo_type
-      type: string
-      description: The type of the hosted git repository (github or gitlab).
+      defaultValue: ''
     - name: gitops_repo_org
       type: string
       description: The org/group where the git repository exists/will be provisioned.
+      defaultValue: ''
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+      defaultValue: ''
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      defaultValue: ''
+      sensitive: true
     - name: gitops_repo_repo
       type: string
       description: >-
         The short name of the repository (i.e. the part after the org/group
         name)
-    - name: gitops_repo_username
-      type: string
-      description: The username of the user with access to the repository
-    - name: gitops_repo_token
-      type: string
-      description: The personal access token used to access the repository
-      sensitive: true
     - name: gitops-cluster-config_banner_text
       type: string
       description: The text that will appear in the top banner in the cluster

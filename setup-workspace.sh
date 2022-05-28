@@ -8,16 +8,25 @@ Usage()
    echo
    echo "Usage: setup-workspace.sh"
    echo "  options:"
+   echo "  -p     Cloud provider (aws, azure, ibm)"
+   echo "  -n     (optional) prefix that should be used for all variables"
    echo "  -h     Print this help"
    echo
 }
 
+CLOUD_PROVIDER=""
+PREFIX_NAME=""
+
 # Get the options
-while getopts ":h:" option; do
+while getopts ":p:n:h:" option; do
    case $option in
       h) # display Help
          Usage
          exit 1;;
+      p)
+         CLOUD_PROVIDER=$OPTARG;;
+      n) # Enter a name
+         PREFIX_NAME=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -29,9 +38,15 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 WORKSPACES_DIR="${SCRIPT_DIR}/../workspaces"
 WORKSPACE_DIR="${WORKSPACES_DIR}/current"
 
+if [[ -n "${PREFIX_NAME}" ]]; then
+  PREFIX_NAME="${PREFIX_NAME}-"
+fi
+
 if [[ -d "${WORKSPACE_DIR}" ]]; then
   DATE=$(date "+%Y%m%d%H%M")
   mv "${WORKSPACE_DIR}" "${WORKSPACES_DIR}/workspace-${DATE}"
+
+  cp "${SCRIPT_DIR}/terraform.tfvars" "${WORKSPACES_DIR}/workspace-${DATE}/terraform.tfvars"
 fi
 
 mkdir -p "${WORKSPACE_DIR}"
@@ -40,9 +55,25 @@ cd "${WORKSPACE_DIR}"
 echo "Setting up workspace in '${WORKSPACE_DIR}'"
 echo "*****"
 
+if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
+  RWO_STORAGE="gp2"
+elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
+  RWO_STORAGE="managed-premium"
+elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] || [[ "${CLOUD_PROVIDER}" == "ibmcloud" ]]; then
+  RWO_STORAGE="ibmc-vpc-block-10iops-tier"
+else
+  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>"
+fi
 
-cp "${SCRIPT_DIR}/terraform.tfvars.template" "${SCRIPT_DIR}/terraform.tfvars"
+cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
+  sed "s/PREFIX/${PREFIX_NAME}/g" | \
+  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" \
+  > "${SCRIPT_DIR}/terraform.tfvars"
+
 ln -s "${SCRIPT_DIR}/terraform.tfvars" ./terraform.tfvars
+
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 
 echo "Setting up workspace from '${TEMPLATE_FLAVOR}' template"
 echo "*****"
@@ -67,6 +98,21 @@ do
 
   if [[ "${REF_ARCH}" == "all" ]] && [[ ! "${name}" =~ ${ALL_ARCH} ]]; then
     continue
+  fi
+
+  if [[ -n "${STORAGE}" ]] && [[ -n "${CLOUD_PROVIDER}" ]]; then
+    BOM_STORAGE=$(grep -E "^ +storage" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
+    BOM_PROVIDER=$(grep -E "^ +platform" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
+
+    if [[ -n "${BOM_PROVIDER}" ]] && [[ "${BOM_PROVIDER}" != "${CLOUD_PROVIDER}" ]]; then
+      echo "  Skipping ${name} because it does't match ${CLOUD_PROVIDER}"
+      continue
+    fi
+
+    if [[ -n "${BOM_STORAGE}" ]] && [[ "${BOM_STORAGE}" != "${STORAGE}" ]]; then
+      echo "  Skipping ${name} because it doesn't match ${STORAGE}"
+      continue
+    fi
   fi
 
   echo "Setting up current/${name} from ${name}"

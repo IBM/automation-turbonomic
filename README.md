@@ -5,7 +5,7 @@
 - **05/2022** - Bug Fix Release
 - **04/2022** - Initial Release
 
-> This collection of Turbonomic IBM Cloud terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Sukthankar** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Turbonomic terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Sukthankar** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
 The automation will support the installation of Turbonomic on three cloud platforms (AWS, Azure, and IBM Cloud).
 
@@ -125,13 +125,22 @@ Steps:
     ```
 
     ```
-    # Add the values for the Credentials to access the IBM Cloud
-    # Instructions to access this information can be found in the README.MD
-    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    ## Add the values for the Credentials to access the OpenShift Environment
+    ## Instructions to access this information can be found in the README.MD
+    ## This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    
+    ## gitops_repo_host: The host for the git repository
+    TF_VAR_gitops_repo_host=github.com
+    ## gitops_repo_username: The username of the user with access to the repository
     TF_VAR_gitops_repo_username=
+    ## gitops_repo_token: The personal access token used to access the repository
     TF_VAR_gitops_repo_token=
-    TF_VAR_cluster_login_token=
+    
+    ## TF_VAR_server_url: The url for the OpenShift api server
     TF_VAR_server_url=
+    ## TF_VAR_cluster_login_token: Token used for authentication to the api server
+    TF_VAR_cluster_login_token=
+
     ```
 
 4. You will need to populate these values. Add your Git Hub username and your Personal Access Token to `repo_username` and `repo_token`

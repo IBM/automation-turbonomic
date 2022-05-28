@@ -4,10 +4,8 @@
 ########################################################
 
 ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
-gitops-ocp-turbonomic_storage_class_name="<your block storage on aws: gp2, on azure: managed-premium>"
-
-## gitops-ocp-turbonomic_storage_class_name: for IBM Cloud run 202 automation and uncomment this value and comment the line above
-#gitops-ocp-turbonomic_storage_class_name="ibmc-vpc-block-10iops-tier"
+## <your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>
+gitops-ocp-turbonomic_storage_class_name="RWO_STORAGE"
 
 ## gitops-repo_host: The host for the git repository.
 gitops_repo_host="github.com"
@@ -16,10 +14,13 @@ gitops_repo_host="github.com"
 gitops_repo_type="github"
 
 ## gitops-repo_org: The org/group where the git repository exists/will be provisioned.
-gitops_repo_org="<your gitorg - most likely your username>"
+## your gitorg - if left blank the value will default to your username
+gitops_repo_org=""
 
 ## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="<repo name to create for git ops configuration>"
+gitops_repo_repo="PREFIXmas-gitops"
 
 ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
 gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
+
+
