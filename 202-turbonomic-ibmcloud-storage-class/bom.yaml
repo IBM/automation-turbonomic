@@ -3,6 +3,8 @@ kind: BillOfMaterial
 metadata:
   name: 202-turbonomic-ibmcloud-storage-class
   labels:
+    platform: ibm
+    storage: vpc
     type: software
     code: '202'
   annotations:

@@ -18,7 +18,7 @@ gitops_repo_type="github"
 gitops_repo_org=""
 
 ## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="PREFIXmas-gitops"
+gitops_repo_repo="PREFIXturbo-gitops"
 
 ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
 gitops-cluster-config_banner_text="Software Everywhere Turbonomic"

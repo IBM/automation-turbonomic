@@ -34,6 +34,14 @@ while getopts ":p:n:h:" option; do
    esac
 done
 
+echo $CLOUD_PROVIDER
+echo $PREFIX_NAME
+
+if [ -z "${CLOUD_PROVIDER}" ] || [ -z "${PREFIX_NAME}" ]; then
+    Usage
+    exit 1;
+fi
+
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 WORKSPACES_DIR="${SCRIPT_DIR}/../workspaces"
 WORKSPACE_DIR="${WORKSPACES_DIR}/current"
@@ -60,9 +68,9 @@ if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
 elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
   RWO_STORAGE="managed-premium"
 elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] || [[ "${CLOUD_PROVIDER}" == "ibmcloud" ]]; then
-  RWO_STORAGE="ibmc-vpc-block-10iops-tier"
+  RWO_STORAGE="ibmc-vpc-block-mzr"
 else
-  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>"
+  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-mzr>"
 fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
@@ -96,23 +104,15 @@ do
     continue
   fi
 
-  if [[ "${REF_ARCH}" == "all" ]] && [[ ! "${name}" =~ ${ALL_ARCH} ]]; then
-    continue
-  fi
-
-  if [[ -n "${STORAGE}" ]] && [[ -n "${CLOUD_PROVIDER}" ]]; then
+  if [[ -n "${RWO_STORAGE}" ]] && [[ -n "${CLOUD_PROVIDER}" ]]; then
     BOM_STORAGE=$(grep -E "^ +storage" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
-    BOM_PROVIDER=$(grep -E "^ +platform" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
+    BOM_PLATFORM=$(grep -E "^ +platform" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
 
-    if [[ -n "${BOM_PROVIDER}" ]] && [[ "${BOM_PROVIDER}" != "${CLOUD_PROVIDER}" ]]; then
-      echo "  Skipping ${name} because it does't match ${CLOUD_PROVIDER}"
+    if [[ -n "${BOM_PLATFORM}" ]] && [[ "${BOM_PLATFORM}" != "${CLOUD_PROVIDER}" ]]; then
+      echo "  Skipping ${name} because it does't match ${CLOUD_PLATFORM}"
       continue
     fi
 
-    if [[ -n "${BOM_STORAGE}" ]] && [[ "${BOM_STORAGE}" != "${STORAGE}" ]]; then
-      echo "  Skipping ${name} because it doesn't match ${STORAGE}"
-      continue
-    fi
   fi
 
   echo "Setting up current/${name} from ${name}"
