@@ -1,7 +1,11 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.16.0"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.18.1"
 
   branch = var.gitops_repo_branch
+  gitea_host = var.gitops_repo_gitea_host
+  gitea_org = var.gitops_repo_gitea_org
+  gitea_token = var.gitops_repo_gitea_token
+  gitea_username = var.gitops_repo_gitea_username
   gitops_namespace = var.gitops_repo_gitops_namespace
   host = var.gitops_repo_host
   org = var.gitops_repo_org
@@ -15,7 +19,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "storage" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-ocp-storageclass?ref=v1.2.3"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ocp-storageclass?ref=v1.2.4"
 
   allow_expansion = var.storage_allow_expansion
   git_credentials = module.gitops_repo.git_credentials
@@ -29,7 +33,7 @@ module "storage" {
   vol_binding_mode = var.storage_vol_binding_mode
 }
 module "turbo_namespace" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.1"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.2"
 
   argocd_namespace = var.turbo_namespace_argocd_namespace
   ci = var.turbo_namespace_ci

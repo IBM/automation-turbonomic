@@ -1,5 +1,5 @@
 module "argocd-bootstrap" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.10.0"
+  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.12.0"
 
   bootstrap_path = module.gitops_repo.bootstrap_path
   bootstrap_prefix = var.argocd-bootstrap_bootstrap_prefix
@@ -16,7 +16,7 @@ module "argocd-bootstrap" {
   sealed_secret_private_key = module.sealed-secret-cert.private_key
 }
 module "cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.2.12"
+  source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.2.14"
 
   cluster_version = var.cluster_cluster_version
   ingress_subdomain = var.cluster_ingress_subdomain
@@ -28,9 +28,13 @@ module "cluster" {
   tls_secret_name = var.cluster_tls_secret_name
 }
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.16.0"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.18.1"
 
   branch = var.gitops_repo_branch
+  gitea_host = var.gitops_repo_gitea_host
+  gitea_org = var.gitops_repo_gitea_org
+  gitea_token = var.gitops_repo_gitea_token
+  gitea_username = var.gitops_repo_gitea_username
   gitops_namespace = var.gitops_repo_gitops_namespace
   host = var.gitops_repo_host
   org = var.gitops_repo_org
@@ -55,12 +59,15 @@ module "gitops-cluster-config" {
   server_name = module.gitops_repo.server_name
 }
 module "gitops-console-link-job" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-console-link-job?ref=v1.4.5"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-console-link-job?ref=v1.4.6"
 
+  cluster_ingress_hostname = var.gitops-console-link-job_cluster_ingress_hostname
+  cluster_type = var.gitops-console-link-job_cluster_type
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
   namespace = module.toolkit_namespace.name
   server_name = module.gitops_repo.server_name
+  tls_secret_name = var.gitops-console-link-job_tls_secret_name
 }
 module "olm" {
   source = "github.com/cloud-native-toolkit/terraform-k8s-olm?ref=v1.3.2"
@@ -78,7 +85,7 @@ module "sealed-secret-cert" {
   private_key_file = var.sealed-secret-cert_private_key_file
 }
 module "toolkit_namespace" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.1"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.2"
 
   argocd_namespace = var.toolkit_namespace_argocd_namespace
   ci = var.toolkit_namespace_ci

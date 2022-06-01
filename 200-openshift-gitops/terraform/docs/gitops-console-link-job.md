@@ -1,6 +1,8 @@
 # Console Link Cronjob module
 
-Module that populates a gitops repository with the Console Link Cronjob chart from https://charts.cloudnativetoolkit.dev. The chart deploys a cron job into a cluster that runs periodically (every 5 minutes by default) looking for matching resources and creating cron jobs and config maps with the information. The matching resources include routes with the `console-link.cloud-native-toolkit.dev/enabled=true` label and `logdna-agent` and `sysdig-agent` daemonsets.
+Module that populates  gitops repository with the Console Link Cronjob chart from https://charts.cloudnativetoolkit.dev. The chart deploys a cron job into a cluster that runs periodically (every 5 minutes by default) looking for matching resources and creating cron jobs and config maps with the information. The matching resources include routes with the `console-link.cloud-native-toolkit.dev/enabled=true` label and `logdna-agent` and `sysdig-agent` daemonsets.
+
+This module uses the following Helm Charts from toolkit-charts( https://charts.cloudnativetoolkit.dev ) : https://github.com/cloud-native-toolkit/toolkit-charts/blob/main/stable/console-link-cronjob/README.md
 
 ## Software dependencies
 
