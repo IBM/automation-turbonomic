@@ -34,9 +34,6 @@ while getopts ":p:n:h:" option; do
    esac
 done
 
-echo $CLOUD_PROVIDER
-echo $PREFIX_NAME
-
 if [ -z "${CLOUD_PROVIDER}" ] || [ -z "${PREFIX_NAME}" ]; then
     Usage
     exit 1;
@@ -67,7 +64,7 @@ if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
   RWO_STORAGE="gp2"
 elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
   RWO_STORAGE="managed-premium"
-elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] || [[ "${CLOUD_PROVIDER}" == "ibmcloud" ]]; then
+elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] ; then
   RWO_STORAGE="ibmc-vpc-block-mzr"
 else
   RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-mzr>"

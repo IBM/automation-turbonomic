@@ -81,7 +81,7 @@ The turbonomic automation is broken into what we call layers of automation or bu
 |--------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)               | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |
 | 202    | [202 - IBM Cloud Storage](./202-turbonomic-ibmcloud-storage-class)        | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Turbonomic                                                                  | 10 Mins |
-| 250 | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
+| 250    | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
 
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
@@ -170,10 +170,11 @@ Steps:
 > we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
 
 11. Next step is to create a workspace to run the Terraform automation.
-12. Run the command setup-workspace.sh you will need to provide the `-p` platform value which can be `azure` | `aws` or `ibmcloud` then supply a prefix name
+12. Run the command setup-workspace.sh you will need to provide the `-p` platform value which can be `azure` | `aws` or `ibm` then supply a prefix name
 
 ```
-./setup-workspace.sh -p ibmcloud -n tubro01
+./setup-workspace.sh -p ibm -n turbo01
+
 ``` 
 
 13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
@@ -227,8 +228,8 @@ Steps:
 
 23. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
-24. If you are using IBM Cloud and set the `-p` flag to `ibmcloud`  you and navigate into the `202-turbonomic-ibmcloud-storage-class` folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
-`
+24. If you are using IBM Cloud and set the `-p` flag to `ibm`  you and navigate into the `202-turbonomic-ibmcloud-storage-class` folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
+
      ```
      cd 202-turbonomic-ibmcloud-storage-class
      terraform init
