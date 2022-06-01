@@ -170,10 +170,10 @@ Steps:
 > we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
 
 11. Next step is to create a workspace to run the Terraform automation.
-12. Run the command setup-workspace.sh you will need to provide the `-p` platform value which can be `azure` | `aws` or `ibmcloud` then supply a prefix name
+12. Run the command setup-workspace.sh you will need to provide the `-p` platform value which can be `azure` | `aws` or `ibm` then supply a prefix name
 
 ```
-./setup-workspace.sh -p ibmcloud -n tubro01
+./setup-workspace.sh -p ibm -n turbo01
 ``` 
 
 13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
@@ -227,7 +227,7 @@ Steps:
 
 23. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
-24. If you are using IBM Cloud and set the `-p` flag to `ibmcloud`  you and navigate into the `202-turbonomic-ibmcloud-storage-class` folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
+24. If you are using IBM Cloud and set the `-p` flag to `ibm`  you and navigate into the `202-turbonomic-ibmcloud-storage-class` folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
 `
      ```
      cd 202-turbonomic-ibmcloud-storage-class
