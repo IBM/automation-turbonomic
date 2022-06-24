@@ -33,6 +33,11 @@ variable "gitops_repo_org" {
   description = "The org/group where the git repository exists/will be provisioned."
   default = ""
 }
+variable "gitops_repo_project" {
+  type = string
+  description = "The project that will be used for the git repo. (Primarily used for Azure DevOps repos)"
+  default = ""
+}
 variable "gitops_repo_username" {
   type = string
   description = "The username of the user with access to the repository"
