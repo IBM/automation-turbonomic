@@ -13,6 +13,11 @@ variable "gitops_repo_org" {
   description = "The org/group where the git repository exists/will be provisioned."
   default = ""
 }
+variable "gitops_repo_project" {
+  type = string
+  description = "The project that will be used for the git repo. (Primarily used for Azure DevOps repos)"
+  default = ""
+}
 variable "gitops_repo_username" {
   type = string
   description = "The username of the user with access to the repository"
@@ -167,6 +172,16 @@ variable "cluster_ingress_subdomain" {
 variable "cluster_tls_secret_name" {
   type = string
   description = "The name of the secret containing the tls certificates for the ingress subdomain (passed through to the output)"
+  default = ""
+}
+variable "cluster_ca_cert" {
+  type = string
+  description = "The base64 encoded ca certificate"
+  default = ""
+}
+variable "cluster_ca_cert_file" {
+  type = string
+  description = "The path to the file that contains the ca certificate"
   default = ""
 }
 variable "sealed-secret-cert_cert" {

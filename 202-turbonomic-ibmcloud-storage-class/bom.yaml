@@ -8,8 +8,9 @@ metadata:
     type: software
     code: '202'
   annotations:
-    displayName: Turbonomic Storage Class - IBM Cloud
+    displayName: Turbonomic Storage Class for IBM Cloud
     description: GitOps deployment of Storage Class for IBM Cloud OpenShift environment
+    deployment-type/gitops: 'true'
 spec:
   modules:
     - name: gitops-namespace
@@ -21,7 +22,7 @@ spec:
           value: turbonomic
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.18.1
+      version: v1.19.1
     - name: gitops-storageclass
       alias: storage
       version: v1.2.4

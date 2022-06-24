@@ -81,7 +81,7 @@ The turbonomic automation is broken into what we call layers of automation or bu
 |--------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)               | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |
 | 202    | [202 - IBM Cloud Storage](./202-turbonomic-ibmcloud-storage-class)        | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Turbonomic                                                                  | 10 Mins |
-| 250    | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
+| 250 | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
 
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
@@ -174,7 +174,6 @@ Steps:
 
 ```
 ./setup-workspace.sh -p ibm -n turbo01
-
 ``` 
 
 13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
@@ -278,33 +277,13 @@ Steps:
 9. Click on `Kubernetes-Turbonomic` then **Validate** button to complete the validation
 10. Then click on the **On** icon at the top of the left menu to see a monitor view of Turbonomic
 
-## Uninstalling
+## Uninstalling & Troubleshooting
 
-You can uninstall Turbonomic by running the Automation layers in reverse order for example :
-
-```
-cd 250-turbonomic-multicloud
-terraform destroy --auto-approve
-...
-
-```
+Please refer to the [Troubleshooting Guide](./TROUBLESHOOTING.md) for uninstallation instructions and instructions to correct common issues.
 
 ## Summary
 
 This concludes the instructions for installing **Turbonomic** on AWS, Azure, and IBM Cloud
-
-## Troubleshooting
-
-If you find that **OpenShift GitOps (ArgoCD)** or a `terraform destroy --auto-approve` is leaving your environment in an inconsistent state
-state you can use these steps to clean up your cluster.
-
-Follow these steps:
-- run `oc get namespace turbonomic -o yaml` on the CLI  to get the details for the namespace. 
-- If you see that the `turbonomic` namespace has not completed terminating you can clean this up with the following steps
-- Get the details of the remaining resource `oc get xl xl-release -n turbonomic -o json`
-- Patch it to remove the stuck finalizer: `oc patch XL xl-release -p '{"metadata": {"finalizers": []}}' --type merge`
-- Delete the resource that was stuck: `oc delete xl xl-release -n turbonomic`
-- Go into **ArgoCD** instance and deleted the remaining argo applications
 
 ## How to Generate this repository from the source Bill of Materials.
 
