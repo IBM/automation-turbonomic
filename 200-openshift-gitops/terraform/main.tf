@@ -30,7 +30,7 @@ module "cluster" {
   tls_secret_name = var.cluster_tls_secret_name
 }
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.19.1"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.19.4"
 
   branch = var.gitops_repo_branch
   gitea_host = var.gitops_repo_gitea_host
