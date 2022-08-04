@@ -1,7 +1,7 @@
-## gitops_repo_host: The host for the git repository.
+## gitops_repo_host: The host for the git repository. The git host used can be a GitHub, GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If the host is null assumes in-cluster Gitea instance will be used.
 #gitops_repo_host=""
 
-## gitops_repo_org: The org/group where the git repository exists/will be provisioned.
+## gitops_repo_org: The org/group where the git repository exists/will be provisioned. If the value is left blank then the username org will be used.
 #gitops_repo_org=""
 
 ## gitops_repo_project: The project that will be used for the git repo. (Primarily used for Azure DevOps repos)

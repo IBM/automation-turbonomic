@@ -2,6 +2,7 @@
 
 ### Change Log
 
+- **08/2022** - Updated IBM Cloud Storage Class support
 - **05/2022** - Usability updates and Bug Fixes
 - **05/2022** - Bug Fix Release
 - **04/2022** - Initial Release
@@ -80,7 +81,6 @@ The turbonomic automation is broken into what we call layers of automation or bu
 | BOM ID | Name                                                           | Description                                                                                                                                                                                                                                   | Run Time |
 |--------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)               | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |
-| 202    | [202 - IBM Cloud Storage](./202-turbonomic-ibmcloud-storage-class)        | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Turbonomic                                                                  | 10 Mins |
 | 250 | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
 
 
@@ -227,15 +227,7 @@ Steps:
 
 23. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
-24. If you are using IBM Cloud and set the `-p` flag to `ibm`  you and navigate into the `202-turbonomic-ibmcloud-storage-class` folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
-
-     ```
-     cd 202-turbonomic-ibmcloud-storage-class
-     terraform init
-     terraform apply --auto-approve
-     ```
-
-25. Now that the GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
+24. Now that the GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
 
      ```
      cd 250-turbonomic-multicloud
@@ -245,19 +237,20 @@ Steps:
      Apply complete! Resources: 38 added, 0 changed, 0 destroyed.
      ```
 
-26. Once the installation has finished you will see a message from Terraform defining the state of the environment.
-27. You will see the first change as a purple banner describing what was installed
+25. Once the installation has finished you will see a message from Terraform defining the state of the environment.
 
-28. The next step is to validate if everything has installed correctly. Open your git repository where your git ops configuration was defined.
+26. You will see the first change as a purple banner describing what was installed 
 
-29. Check if the payload folder has been created with the correct definitions for GitOps. Navigate to the `payload/2-services/namespace/turbonomic` folder and look at the content of the installation YAML files. You should see the Operator CR definitions
-30. Final Step is to Open up Argo CD (OpenShift GitOps) check it is correctly configured, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.
+27. The next step is to validate if everything has installed correctly. Open your git repository where your git ops configuration was defined.
 
-31. Complete the authorization with OpenShift, and, then narrow the filters by selecting the **turbonomic namespace**.
+28. Check if the payload folder has been created with the correct definitions for GitOps. Navigate to the `payload/2-services/namespace/turbonomic` folder and look at the content of the installation YAML files. You should see the Operator CR definitions
+29. Final Step is to Open up Argo CD (OpenShift GitOps) check it is correctly configured, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.
 
-32. This will show you the GitOps dashboard of the software you have installed using GitOps techniques
-33. Click on **turbonomic-turboinst** tile
-34. You will see all the microservices that Turbonomic uses to install with their enablement state
+30. Complete the authorization with OpenShift, and, then narrow the filters by selecting the **turbonomic namespace**.
+
+31. This will show you the GitOps dashboard of the software you have installed using GitOps techniques
+32. Click on **turbonomic-turboinst** tile
+33. You will see all the microservices that Turbonomic uses to install with their enablement state
 
 ### Setup Turbonomic after installation
 

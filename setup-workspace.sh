@@ -65,9 +65,9 @@ if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
 elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
   RWO_STORAGE="managed-premium"
 elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] ; then
-  RWO_STORAGE="ibmc-vpc-block-mzr"
+  RWO_STORAGE="ibmc-vpc-block-metro-10iops-tier"
 else
-  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-mzr>"
+  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-metro-10iops-tier>"
 fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
@@ -85,7 +85,7 @@ echo "*****"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
-ALL_ARCH="200|202|250"
+ALL_ARCH="200|250"
 
 echo "Setting up automation  ${WORKSPACE_DIR}"
 

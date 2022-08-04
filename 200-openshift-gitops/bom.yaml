@@ -14,7 +14,7 @@ spec:
   modules:
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.19.4
+      version: v1.21.0
     - name: argocd-bootstrap
       alias: argocd-bootstrap
       version: v1.12.0
@@ -38,7 +38,7 @@ spec:
           value: toolkit
     - name: ocp-login
       alias: cluster
-      version: v1.3.1
+      version: v1.5.2
     - name: olm
       version: v1.3.2
     - name: sealed-secret-cert
@@ -46,11 +46,16 @@ spec:
   variables:
     - name: gitops_repo_host
       type: string
-      description: The host for the git repository.
+      description: >-
+        The host for the git repository. The git host used can be a GitHub,
+        GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If
+        the host is null assumes in-cluster Gitea instance will be used.
       defaultValue: ''
     - name: gitops_repo_org
       type: string
-      description: The org/group where the git repository exists/will be provisioned.
+      description: >-
+        The org/group where the git repository exists/will be provisioned. If
+        the value is left blank then the username org will be used.
       defaultValue: ''
     - name: gitops_repo_project
       type: string
