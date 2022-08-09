@@ -13,6 +13,18 @@ metadata:
     deployment-type/gitops: 'true'
 spec:
   modules:
+    - name: gitea
+      alias: gitea
+      version: v0.5.0
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+    - name: gitops-namespace
+      alias: gitea_namespace
+      version: v1.11.2
+      variables: &ref_0
+        - name: name
+          value: gitea
     - name: gitops-namespace
       alias: turbo_namespace
       version: v1.11.2
@@ -26,6 +38,15 @@ spec:
     - name: gitops-repo
       alias: gitops_repo
       version: v1.21.0
+    - name: ocp-login
+      alias: cluster
+      version: v1.6.0
+    - name: olm
+      version: v1.3.2
+    - name: gitops-namespace
+      alias: gitea_namespace
+      version: v3.2.3
+      variables: *ref_0
   variables:
     - name: gitops-ocp-turbonomic_storage_class_name
       type: string
@@ -65,3 +86,10 @@ spec:
       description: >-
         The short name of the repository (i.e. the part after the org/group
         name)
+    - name: server_url
+      type: string
+      description: The url for the OpenShift api
+    - name: cluster_login_token
+      type: string
+      description: Token used for authentication
+      sensitive: true

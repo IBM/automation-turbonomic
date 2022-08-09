@@ -1,0 +1,124 @@
+name: Verify
+
+# Controls when the action will run.
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: The status of the job
+        value: ${{ jobs.verify.outputs.status }}
+    secrets:
+      IBMCLOUD_API_KEY:
+        required: true
+      ENTITLEMENT_KEY:
+        required: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2
+      options: --privileged --user root
+
+    strategy:
+      matrix:
+        provider:
+          - ibm
+      fail-fast: false
+
+    env:
+      HOME: /home/devops
+      FLAVOR: quickstart
+      REGION: us-east
+      STORAGE: portworx
+      IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+      TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+      TF_VAR_entitlement_key: ${{ secrets.ENTITLEMENT_KEY }}
+      TF_VAR_purge_volumes: true
+
+    outputs:
+      status: ${{ job.status }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Setup variables ${{ matrix.base }}:${{ matrix.terraform }}
+        id: variables
+        shell: bash
+        run: |
+          if [[ "${{ matrix.provider }}" == "ibm" ]]; then
+            REPO="automation-ibmcloud-infra-openshift"
+            REPO_BRANCH="main"
+          elif [[ "${{ matrix.provider }}" == "aws" ]]; then
+            REPO="automation-aws-infra-openshift"
+            REPO_BRANCH="main"
+          elif [[ "${{ matrix.provider }}" == "azure" ]]; then
+            REPO="automation-azure-infra-openshift"
+            REPO_BRANCH="main"
+          fi
+          
+          echo "Repo: ${REPO}"
+          echo "::set-output name=infra-repo::$REPO"
+          
+          echo "Repo branch: ${REPO_BRANCH}"
+          echo "::set-output name=infra-repo-branch::$REPO_BRANCH"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: main
+
+      - name: Checkout infra - ${{ steps.variables.outputs.infra-repo }}
+        uses: actions/checkout@v3
+        with:
+          repository: IBM/${{ steps.variables.outputs.infra-repo }}
+          ref: refs/heads/${{ steps.variables.outputs.infra-repo-branch }}
+          path: infra
+
+      - name: Terraform Apply - ${{ matrix.provider }}
+        run: |
+          PROVIDER_CHAR=$(echo "${{ matrix.provider }}" | fold -w ${1:-2} | head -n 1)
+          FLAVOR_CHAR=$(echo "$FLAVOR" | fold -w ${1:-1} | head -n 1)
+          STORAGE_CHAR=$(echo "${STORAGE}" | fold -w ${1:-1} | head -n 1)
+          RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
+          
+          NAME="${PROVIDER_CHAR}${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}"
+          
+          cd infra
+          ./setup-workspace.sh -f $FLAVOR -s $STORAGE -n $NAME -r $REGION
+          
+          cd ../main
+          ./setup-workspace.sh -p ${{ matrix.provider }} -s ${{ matrix.storage }} -n "${NAME}" -a
+          
+          cd ../workspaces/current
+          
+          echo ""
+          echo "*** Start cluster.tfvars ***"
+          cat cluster.tfvars
+          echo "*** End cluster.tfvars ***"
+          echo ""
+          echo "*** Start gitops.tfvars ***"
+          cat gitops.tfvars
+          echo "*** End gitops.tfvars ***"
+          echo ""
+          echo "*** Start turbonomic.tfvars ***"
+          cat turbonomic.tfvars
+          echo "*** End turbonomic.tfvars ***"
+          echo ""
+          
+          ./apply-all.sh -y
+
+      - name: Validate Deploy - ${{ matrix.provider }}
+        run: |
+          export INSTANCE_ID=$(cat ./workspaces/current/maximo.tfvars | grep gitops-cp-maximo_instanceid | sed -E 's/gitops-cp-maximo_instanceid="(.*)"/\1/g')
+          export KUBECONFIG=$(cd ./workspaces/current/105-ibm-vpc-openshift/.tmp/.kube; pwd -P)
+          export BIN_DIR=${cd ./workspaces/current/bin; pwd -P)
+          
+          ./main/.github/scripts/validate-deploy.sh
+          
+
+      - name: Terraform Destroy - ${{ matrix.provider }}
+        if: ${{ always() }}
+        run: |
+          cd ./workspaces/current
+          ./destroy-all.sh -y

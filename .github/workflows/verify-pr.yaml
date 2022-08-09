@@ -3,8 +3,9 @@ name: Verify
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
-  push:
-    branches: [ main ]
+  pull_request:
+    branches:
+      - main
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -13,9 +14,3 @@ jobs:
     secrets:
       IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
       ENTITLEMENT_KEY: ${{ secrets.ENTITLEMENT_KEY }}
-
-  release:
-    needs: [verify]
-    uses: cloud-native-toolkit/action-workflows/.github/workflows/release-module.yaml@v1
-    secrets:
-      TOKEN: ${{ secrets.TOKEN }}

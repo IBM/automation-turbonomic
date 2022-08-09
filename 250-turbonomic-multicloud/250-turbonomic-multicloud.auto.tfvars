@@ -19,3 +19,9 @@
 ## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
 #gitops_repo_repo=""
 
+## server_url: The url for the OpenShift api
+#server_url=""
+
+## cluster_login_token: Token used for authentication
+#cluster_login_token=""
+
