@@ -20,9 +20,10 @@ CLOUD_PROVIDER=""
 PREFIX_NAME=""
 APPEND=""
 GIT_HOST=""
+STORAGE=""
 
 # Get the options
-while getopts ":p:n:a:g:h:" option; do
+while getopts ":p:n:a:g:s:h:" option; do
    case $option in
       h) # display Help
          Usage
@@ -35,6 +36,8 @@ while getopts ":p:n:a:g:h:" option; do
          PREFIX_NAME=$OPTARG;;
       g) # Enter a name
          GIT_HOST=$OPTARG;;
+      s) # Enter a name
+         STORAGE=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage

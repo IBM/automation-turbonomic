@@ -30,7 +30,7 @@ jobs:
     env:
       HOME: /home/devops
       FLAVOR: quickstart
-      REGION: us-east
+      REGION: eu-gb
       STORAGE: portworx
       IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
       TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
@@ -48,7 +48,7 @@ jobs:
         run: |
           if [[ "${{ matrix.provider }}" == "ibm" ]]; then
             REPO="automation-ibmcloud-infra-openshift"
-            REPO_BRANCH="main"
+            REPO_BRANCH="update-layers"
           elif [[ "${{ matrix.provider }}" == "aws" ]]; then
             REPO="automation-aws-infra-openshift"
             REPO_BRANCH="main"
