@@ -88,7 +88,7 @@ jobs:
           ./setup-workspace.sh -f $FLAVOR -s $STORAGE -n $NAME -r $REGION
           
           cd ../main
-          ./setup-workspace.sh -p ${{ matrix.provider }} -s ${{ matrix.storage }} -n "${NAME}" -a
+          ./setup-workspace.sh -p ${{ matrix.provider }} -n "${NAME}" -a
           
           cd ../workspaces/current
           
