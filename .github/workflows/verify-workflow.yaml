@@ -41,12 +41,12 @@ jobs:
         with:
           github_pat: ${{ secrets.GITHUB_PAT }}     # Personal access token with organization permissions
           runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
-          runner_tag: cli-tools-core
-          runner_labels: cli-tools-core
+          runner_tag: cli-tools-ibmcloud
+          runner_labels: cli-tools-ibmcloud
 
   verify:
     needs: install_runner
-    runs-on: [ self-hosted, cli-tools-core ]
+    runs-on: [ self-hosted, cli-tools-ibmcloud ]
 
     strategy:
       matrix:
