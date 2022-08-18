@@ -77,8 +77,6 @@ jobs:
         id: variables
         shell: bash
         env:
-          FLAVOR: ${{ matrix.flavor }}
-          STORAGE: ${{ matrix.storage }}
           PROVIDER: ${{ matrix.provider }}
         run: |
           if [[ "${PROVIDER}" == "ibm" ]]; then
@@ -123,8 +121,6 @@ jobs:
       - name: Setup workspace - ${{ matrix.provider }}
         env:
           NAME_PREFIX: ${{ steps.variables.outputs.name-prefix }}
-          FLAVOR: ${{ matrix.flavor }}
-          STORAGE: ${{ matrix.storage }}
           PROVIDER: ${{ matrix.provider }}
         run: |
           cd infra
