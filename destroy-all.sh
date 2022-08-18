@@ -7,7 +7,7 @@ if [[ -f "${PWD}/terragrunt.hcl" ]]; then
     NON_INTERACTIVE="--terragrunt-non-interactive"
   fi
 
-  terragrunt run-all destroy --terragrunt-parallelism 1 ${NON_INTERACTIVE} --terragrunt-exclude-dir="${PWD}/.mocks/"*
+  terragrunt run-all destroy --terragrunt-parallelism 1 ${NON_INTERACTIVE} --terragrunt-ignore-dependency-errors --terragrunt-exclude-dir="${PWD}/.mocks/"*
 else
   find . -type d -maxdepth 1 | grep -vE "[.]/[.].*" | grep -vE "^[.]$" | grep -v workspace | sort -r | \
     while read dir;

@@ -14,3 +14,4 @@ jobs:
     secrets:
       IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
       ENTITLEMENT_KEY: ${{ secrets.ENTITLEMENT_KEY }}
+      GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
