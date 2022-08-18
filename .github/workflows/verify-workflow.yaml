@@ -41,12 +41,12 @@ jobs:
         with:
           github_pat: ${{ secrets.GITHUB_PAT }}     # Personal access token with organization permissions
           runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
-          runner_tag: cli-tools
-          runner_labels: cli-tools
+          runner_tag: cli-tools-core
+          runner_labels: cli-tools-core
 
   verify:
     needs: install_runner
-    runs-on: [ self-hosted, cli-tools ]
+    runs-on: [ self-hosted, cli-tools-core ]
 
     strategy:
       matrix:
