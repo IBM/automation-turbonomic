@@ -12,31 +12,24 @@ metadata:
       bootstraps it to a gitops repository
 spec:
   modules:
+    - name: gitops-cluster-config
+      alias: config
+      version: v1.1.0
+    - name: ocp-login
+      alias: cluster
+      version: v1.6.0
+    - name: namespace
+      alias: gitea_namespace
+      version: v3.2.3
+      variables:
+        - name: name
+          value: gitea
     - name: gitea
       alias: gitea
       version: v0.5.0
       dependencies:
         - id: namespace
           ref: gitea_namespace
-    - name: gitops-cluster-config
-      alias: config
-      version: v1.0.0
-    - name: gitops-console-link-job
-      alias: gitops-console-link-job
-      version: v1.4.6
-    - name: gitops-namespace
-      alias: gitea_namespace
-      version: v1.11.2
-      variables: &ref_0
-        - name: name
-          value: gitea
-    - name: gitops-namespace
-      alias: toolkit_namespace
-      version: v1.11.2
-      default: true
-      variables:
-        - name: name
-          value: toolkit
     - name: gitops-repo
       alias: gitops_repo
       version: v1.21.0
@@ -46,21 +39,33 @@ spec:
       variables:
         - name: create_webhook
           value: true
-    - name: ocp-login
-      alias: cluster
-      version: v1.6.0
+    - name: gitops-console-link-job
+      alias: gitops-console-link-job
+      version: v1.5.0
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      version: v1.12.2
+      default: true
+      variables:
+        - name: name
+          value: toolkit
+    - name: util-clis
+      version: v1.16.9
     - name: olm
       version: v1.3.2
-    - name: gitops-namespace
-      alias: gitea_namespace
-      version: v3.2.3
-      variables: *ref_0
     - name: sealed-secret-cert
       version: v1.0.1
   variables:
     - name: config_banner_text
       type: string
       description: The text that will appear in the top banner in the cluster
+    - name: server_url
+      type: string
+      description: The url for the OpenShift api
+    - name: cluster_login_token
+      type: string
+      description: Token used for authentication
+      sensitive: true
     - name: gitops_repo_host
       type: string
       description: >-
@@ -94,10 +99,3 @@ spec:
       description: >-
         The short name of the repository (i.e. the part after the org/group
         name)
-    - name: server_url
-      type: string
-      description: The url for the OpenShift api
-    - name: cluster_login_token
-      type: string
-      description: Token used for authentication
-      sensitive: true

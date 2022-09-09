@@ -1,3 +1,75 @@
+variable "config_banner_background_color" {
+  type = string
+  description = "The background color of the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
+  default = "purple"
+}
+variable "config_banner_text_color" {
+  type = string
+  description = "The text color for the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
+  default = "white"
+}
+variable "config_banner_text" {
+  type = string
+  description = "The text that will appear in the top banner in the cluster"
+}
+variable "server_url" {
+  type = string
+  description = "The url for the OpenShift api"
+}
+variable "cluster_login_user" {
+  type = string
+  description = "Username for login"
+  default = ""
+}
+variable "cluster_login_password" {
+  type = string
+  description = "Password for login"
+  default = ""
+}
+variable "cluster_login_token" {
+  type = string
+  description = "Token used for authentication"
+}
+variable "cluster_skip" {
+  type = bool
+  description = "Flag indicating that the cluster login has already been performed"
+  default = false
+}
+variable "cluster_cluster_version" {
+  type = string
+  description = "[Deprecated] The version of the cluster (passed through to the output)"
+  default = ""
+}
+variable "cluster_ingress_subdomain" {
+  type = string
+  description = "[Deprecated] The ingress subdomain of the cluster (passed through to the output)"
+  default = ""
+}
+variable "cluster_tls_secret_name" {
+  type = string
+  description = "[Deprecated] The name of the secret containing the tls certificates for the ingress subdomain (passed through to the output)"
+  default = ""
+}
+variable "cluster_ca_cert" {
+  type = string
+  description = "The base64 encoded ca certificate"
+  default = ""
+}
+variable "cluster_ca_cert_file" {
+  type = string
+  description = "The path to the file that contains the ca certificate"
+  default = ""
+}
+variable "gitea_namespace_name" {
+  type = string
+  description = "The namespace that should be created"
+  default = "gitea"
+}
+variable "gitea_namespace_create_operator_group" {
+  type = bool
+  description = "Flag indicating that an operator group should be created in the namespace"
+  default = true
+}
 variable "gitea_instance_name" {
   type = string
   description = "The name for the instance"
@@ -17,75 +89,6 @@ variable "gitea_ca_cert_file" {
   type = string
   description = "The path to the file that contains the ca certificate"
   default = ""
-}
-variable "config_banner_background_color" {
-  type = string
-  description = "The background color of the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
-  default = "purple"
-}
-variable "config_banner_text_color" {
-  type = string
-  description = "The text color for the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
-  default = "white"
-}
-variable "config_banner_text" {
-  type = string
-  description = "The text that will appear in the top banner in the cluster"
-}
-variable "gitops-console-link-job_cluster_ingress_hostname" {
-  type = string
-  description = "Ingress hostname of the IKS cluster."
-  default = ""
-}
-variable "gitops-console-link-job_cluster_type" {
-  type = string
-  description = "The cluster type (openshift or ocp3 or ocp4 or kubernetes)"
-  default = "ocp4"
-}
-variable "gitops-console-link-job_tls_secret_name" {
-  type = string
-  description = "The name of the secret containing the tls certificate values"
-  default = ""
-}
-variable "gitea_namespace_name" {
-  type = string
-  description = "The value that should be used for the namespace"
-  default = "gitea"
-}
-variable "gitea_namespace_ci" {
-  type = bool
-  description = "Flag indicating that this namespace will be used for development (e.g. configmaps and secrets)"
-  default = false
-}
-variable "gitea_namespace_create_operator_group" {
-  type = bool
-  description = "Flag indicating that an operator group should be created in the namespace"
-  default = true
-}
-variable "gitea_namespace_argocd_namespace" {
-  type = string
-  description = "The namespace where argocd has been deployed"
-  default = "openshift-gitops"
-}
-variable "toolkit_namespace_name" {
-  type = string
-  description = "The value that should be used for the namespace"
-  default = "toolkit"
-}
-variable "toolkit_namespace_ci" {
-  type = bool
-  description = "Flag indicating that this namespace will be used for development (e.g. configmaps and secrets)"
-  default = false
-}
-variable "toolkit_namespace_create_operator_group" {
-  type = bool
-  description = "Flag indicating that an operator group should be created in the namespace"
-  default = true
-}
-variable "toolkit_namespace_argocd_namespace" {
-  type = string
-  description = "The namespace where argocd has been deployed"
-  default = "openshift-gitops"
 }
 variable "gitops_repo_host" {
   type = string
@@ -161,53 +164,50 @@ variable "argocd-bootstrap_create_webhook" {
   description = "Flag indicating that a webhook should be created in the gitops repo to notify argocd of changes"
   default = true
 }
-variable "server_url" {
+variable "gitops-console-link-job_cluster_ingress_hostname" {
   type = string
-  description = "The url for the OpenShift api"
-}
-variable "cluster_login_user" {
-  type = string
-  description = "Username for login"
+  description = "Ingress hostname of the IKS cluster."
   default = ""
 }
-variable "cluster_login_password" {
+variable "gitops-console-link-job_cluster_type" {
   type = string
-  description = "Password for login"
+  description = "The cluster type (openshift or ocp3 or ocp4 or kubernetes)"
+  default = "ocp4"
+}
+variable "gitops-console-link-job_tls_secret_name" {
+  type = string
+  description = "The name of the secret containing the tls certificate values"
   default = ""
 }
-variable "cluster_login_token" {
+variable "toolkit_namespace_name" {
   type = string
-  description = "Token used for authentication"
+  description = "The value that should be used for the namespace"
+  default = "toolkit"
 }
-variable "cluster_skip" {
+variable "toolkit_namespace_ci" {
   type = bool
-  description = "Flag indicating that the cluster login has already been performed"
+  description = "Flag indicating that this namespace will be used for development (e.g. configmaps and secrets)"
   default = false
 }
-variable "cluster_cluster_version" {
+variable "toolkit_namespace_create_operator_group" {
+  type = bool
+  description = "Flag indicating that an operator group should be created in the namespace"
+  default = true
+}
+variable "toolkit_namespace_argocd_namespace" {
   type = string
-  description = "[Deprecated] The version of the cluster (passed through to the output)"
+  description = "The namespace where argocd has been deployed"
+  default = "openshift-gitops"
+}
+variable "util-clis_bin_dir" {
+  type = string
+  description = "The directory where the clis should be downloaded. If not provided will default to ./bin"
   default = ""
 }
-variable "cluster_ingress_subdomain" {
+variable "util-clis_clis" {
   type = string
-  description = "[Deprecated] The ingress subdomain of the cluster (passed through to the output)"
-  default = ""
-}
-variable "cluster_tls_secret_name" {
-  type = string
-  description = "[Deprecated] The name of the secret containing the tls certificates for the ingress subdomain (passed through to the output)"
-  default = ""
-}
-variable "cluster_ca_cert" {
-  type = string
-  description = "The base64 encoded ca certificate"
-  default = ""
-}
-variable "cluster_ca_cert_file" {
-  type = string
-  description = "The path to the file that contains the ca certificate"
-  default = ""
+  description = "The list of clis that should be made available in the bin directory. Supported values are yq, jq, igc, helm, argocd, rosa, gh, glab, and kubeseal. (If not provided the list will default to yq, jq, and igc)"
+  default = "[\"yq\",\"jq\",\"igc\"]"
 }
 variable "sealed-secret-cert_cert" {
   type = string

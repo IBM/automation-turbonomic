@@ -56,7 +56,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "gitops-ocp-turbonomic" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-ocp-turbonomic?ref=v2.1.5"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ocp-turbonomic?ref=v2.2.0"
 
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
@@ -75,7 +75,7 @@ module "olm" {
   cluster_version = module.cluster.platform.version
 }
 module "turbo_namespace" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.12.2"
 
   argocd_namespace = var.turbo_namespace_argocd_namespace
   ci = var.turbo_namespace_ci
@@ -84,4 +84,11 @@ module "turbo_namespace" {
   gitops_config = module.gitops_repo.gitops_config
   name = var.turbo_namespace_name
   server_name = module.gitops_repo.server_name
+}
+module "util-clis" {
+  source = "cloud-native-toolkit/clis/util"
+  version = "1.16.9"
+
+  bin_dir = var.util-clis_bin_dir
+  clis = var.util-clis_clis == null ? null : jsondecode(var.util-clis_clis)
 }

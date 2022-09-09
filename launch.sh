@@ -48,10 +48,11 @@ then
   fi
 fi
 
-DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.1.3"
-#IBM DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2-v0.3.3"
-#AWS DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-aws:v1.2-v0.2.1"
-#AZURE DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-azure:v1.2-v0.2.1"
+
+DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.2.7"
+#IBM DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-ibmcloud:v1.2-v0.4.11"
+#AWS DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-aws:v1.2-v0.3.7"
+#AZURE DOCKER_IMAGE="quay.io/cloudnativetoolkit/cli-tools-azure:v1.2-v0.4.7"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")
 CONTAINER_NAME="cli-tools-${SUFFIX}"
@@ -78,11 +79,12 @@ if [[ -f "credentials.properties" ]]; then
     CLEAN="$(echo $line | sed 's/export //' )"
 
     #parse key-value pairs
-    TOKENS=(${CLEAN//\"/ })
-    KEY="${TOKENS[0]%?}"
-    VALUE="${TOKENS[1]}"
+    IFS=' =' read -r KEY VALUE <<< ${CLEAN//\"/ }
 
-    ENV_VARS="-e $KEY=$VALUE $ENV_VARS"
+    # don't add an empty key
+    if [[ -n "${KEY}" ]]; then
+      ENV_VARS="-e $KEY=$VALUE $ENV_VARS"
+    fi
   done <<< "$props"
 fi
 
