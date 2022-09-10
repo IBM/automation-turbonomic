@@ -154,7 +154,7 @@ jobs:
 
       - name: Validate Deploy - ${{ matrix.provider }}
         run: |
-          export BIN_DIR=${cd ./workspaces/current/bin; pwd -P)
+          export BIN_DIR=$(cd ./workspaces/current/bin; pwd -P)
           
           terragunt run-all output -json > output.json
           cat output.json
