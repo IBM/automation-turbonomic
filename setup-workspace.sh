@@ -131,7 +131,7 @@ do
   fi
 
   # TODO ideally this should match an attribute in the BOM instead of hard coding the name
-  if [[ "${name}" == "105-existing-openshift" ]] && [[ $(find "${WORKSPACE_DIR}" -maxdepth 1 "105-*" | wc -l) -gt 0 ]]; then
+  if [[ "${name}" == "105-existing-openshift" ]] && [[ $(find "${WORKSPACE_DIR}" -maxdepth 1 -name "105-*" | wc -l) -gt 0 ]]; then
     continue
   fi
 
