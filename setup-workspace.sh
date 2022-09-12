@@ -116,8 +116,6 @@ cp "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
-ALL_ARCH="200|250"
-
 echo "Setting up automation  ${WORKSPACE_DIR}"
 
 echo ${SCRIPT_DIR}
@@ -132,12 +130,17 @@ do
     continue
   fi
 
+  # TODO ideally this should match an attribute in the BOM instead of hard coding the name
+  if [[ "${name}" == "105-existing-openshift" ]] && [[ $(find "${WORKSPACE_DIR}" -maxdepth 1 "105-*" | wc -l) -gt 0 ]]; then
+    continue
+  fi
+
   if [[ -n "${RWO_STORAGE}" ]] && [[ -n "${CLOUD_PROVIDER}" ]]; then
     BOM_STORAGE=$(grep -E "^ +storage" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
     BOM_PLATFORM=$(grep -E "^ +platform" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
 
     if [[ -n "${BOM_PLATFORM}" ]] && [[ "${BOM_PLATFORM}" != "${CLOUD_PROVIDER}" ]]; then
-      echo "  Skipping ${name} because it does't match ${CLOUD_PLATFORM}"
+      echo "  Skipping ${name} because it doesn't match ${CLOUD_PLATFORM}"
       continue
     fi
 

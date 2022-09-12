@@ -8,6 +8,6 @@
 gitops-ocp-turbonomic_storage_class_name="RWO_STORAGE"
 
 ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
-gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
+config_banner_text="Turbonomic"
 
 

@@ -3,7 +3,8 @@ cluster:
     - 105-aws-vpc-openshift
     - 105-azure-ocp-ipi
     - 105-ibm-vpc-openshift
-  mock: 105-mock
+    - 105-existing-openshift
+  mock: mock
 "200":
   names:
     - 200-openshift-gitops
