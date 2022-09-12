@@ -156,6 +156,8 @@ jobs:
           cat output.json
           export KUBECONFIG=$(cat output.json | jq -r '.cluster_kubeconfig')
           
+          echo "KUBECONFIG: ${KUBECONFIG}"
+          
           ./main/.github/scripts/validate-deploy.sh
 
       - name: Terraform Destroy - ${{ matrix.provider }}

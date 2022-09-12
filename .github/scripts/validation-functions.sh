@@ -39,6 +39,7 @@ check_k8s_namespace () {
 
   if [[ $count -eq 20 ]]; then
     echo "Timed out waiting for namespace: ${NS}" >&2
+    kubectl get namespace >&2
     exit 1
   else
     echo "Found namespace: ${NS}. Sleeping for 30 seconds to wait for everything to settle down"
