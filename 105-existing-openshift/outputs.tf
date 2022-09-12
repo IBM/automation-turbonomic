@@ -21,7 +21,7 @@ output "cluster_ingress" {
   sensitive = true
 }
 
-output "cluster_kubeconfig" {
+output "kubeconfig" {
   value = module.cluster.platform.kubeconfig
   sensitive = true
 }
