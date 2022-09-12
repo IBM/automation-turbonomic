@@ -158,7 +158,7 @@ jobs:
           
           terragunt run-all output -json > output.json
           cat output.json
-          export KUBECONFIG=$(cat output.json | jq -r '.kubeconfig')
+          export KUBECONFIG=$(cat output.json | jq -r '.cluster_kubeconfig')
           
           ./main/.github/scripts/validate-deploy.sh
 

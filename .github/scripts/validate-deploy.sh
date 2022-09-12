@@ -13,11 +13,6 @@ if [[ -z "${KUBECONFIG}" ]]; then
   exit 1
 fi
 
-if [[ -z "${INSTANCE_ID}" ]]; then
-  echo "INSTANCE_ID is not defined" >&2
-  exit 1
-fi
-
 if ! command -v oc 1> /dev/null 2> /dev/null; then
   echo "oc cli not found" >&2
   exit 1
