@@ -1,0 +1,13 @@
+########################################################
+# Name: Turbonomic Terraform Variable File
+# Desc: Initial input variables to support installation of Turbonomic into the cloud provider of your choice
+########################################################
+
+## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
+## <your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>
+gitops-ocp-turbonomic_storage_class_name="RWO_STORAGE"
+
+## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
+config_banner_text="Turbonomic"
+
+

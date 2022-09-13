@@ -1,0 +1,18 @@
+cluster:
+  names:
+    - 105-aws-vpc-openshift
+    - 105-azure-ocp-ipi
+    - 105-ibm-vpc-openshift
+    - 105-existing-openshift
+  mock: mock
+"200":
+  names:
+    - 200-openshift-gitops
+  mock: mock
+"210":
+  names:
+    - 210-aws-portworx-storage
+    - 210-azure-portworx-storage
+    - 210-ibm-odf-storage
+    - 210-ibm-portworx-storage
+  mock: mock

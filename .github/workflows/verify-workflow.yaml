@@ -1,0 +1,167 @@
+name: Verify
+
+# Controls when the action will run.
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: The status of the job
+        value: ${{ jobs.verify.outputs.status }}
+    secrets:
+      IBMCLOUD_API_KEY:
+        required: true
+      ENTITLEMENT_KEY:
+        required: true
+      OPENSHIFT_SERVER:
+        required: true
+      OPENSHIFT_USER:
+        required: true
+      OPENSHIFT_PASSWORD:
+        required: true
+      GITHUB_PAT:
+        required: true
+      GITOPS_REPO_TOKEN:
+        required: false
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  install_runner:
+    name: Install Runner
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Log in to OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_username: ${{ secrets.OPENSHIFT_USER }}
+          openshift_password: ${{ secrets.OPENSHIFT_PASSWORD }}
+
+      - uses: redhat-actions/openshift-actions-runner-installer@v1
+        with:
+          github_pat: ${{ secrets.GITHUB_PAT }}     # Personal access token with organization permissions
+          runner_image: quay.io/cloudnativetoolkit/github-terraform-runner
+          runner_tag: cli-tools-ibmcloud
+          runner_labels: cli-tools-ibmcloud
+
+  verify:
+    needs: install_runner
+    runs-on: [ self-hosted, cli-tools-ibmcloud ]
+
+    strategy:
+      matrix:
+        provider:
+          - ibm
+      fail-fast: false
+
+    env:
+      HOME: /home/devops
+      FLAVOR: quickstart
+      REGION: eu-gb
+      STORAGE: none
+      IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+      TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+      TF_VAR_entitlement_key: ${{ secrets.ENTITLEMENT_KEY }}
+      TF_VAR_purge_volumes: true
+
+    outputs:
+      status: ${{ job.status }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Setup variables ${{ matrix.base }}:${{ matrix.terraform }}
+        id: variables
+        shell: bash
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          if [[ "${PROVIDER}" == "ibm" ]]; then
+            REPO="automation-ibmcloud-infra-openshift"
+            REPO_BRANCH="update-layers"
+          elif [[ "${PROVIDER}" == "aws" ]]; then
+            REPO="automation-aws-infra-openshift"
+            REPO_BRANCH="main"
+          elif [[ "${PROVIDER}" == "azure" ]]; then
+            REPO="automation-azure-infra-openshift"
+            REPO_BRANCH="main"
+          fi
+          
+          echo "Repo: ${REPO}"
+          echo "::set-output name=infra-repo::$REPO"
+          
+          echo "Repo branch: ${REPO_BRANCH}"
+          echo "::set-output name=infra-repo-branch::$REPO_BRANCH"
+          
+          RANDOM_PREFIX=$(echo $RANDOM | md5sum | head -c 5; echo)
+          FLAVOR_CHAR=$(echo "${FLAVOR}" | fold -w ${1:-1} | head -n 1)
+          STORAGE_CHAR=$(echo "${STORAGE}" | fold -w ${1:-1} | head -n 1)
+          PROVIDER_CHAR=$(echo "${PROVIDER}" | fold -w ${1:-2} | head -n 1)
+
+          NAME_PREFIX="${PROVIDER_CHAR}${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}"
+          
+          echo "Name prefix: $NAME_PREFIX"
+          echo "::set-output name=name-prefix::$NAME_PREFIX"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: main
+
+      - name: Checkout infra - ${{ steps.variables.outputs.infra-repo }}
+        uses: actions/checkout@v3
+        with:
+          repository: IBM/${{ steps.variables.outputs.infra-repo }}
+          ref: refs/heads/${{ steps.variables.outputs.infra-repo-branch }}
+          path: infra
+
+      - name: Setup workspace - ${{ matrix.provider }}
+        env:
+          NAME_PREFIX: ${{ steps.variables.outputs.name-prefix }}
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          cd infra
+          ./setup-workspace.sh -f "$FLAVOR" -s "$STORAGE" -n "$NAME_PREFIX" -r "$REGION"
+          
+          cd ../main
+          ./setup-workspace.sh -p "$PROVIDER" -n "$NAME_PREFIX" -a
+          
+          cd ../workspaces/current
+          
+          echo ""
+          echo "*** Start cluster.tfvars ***"
+          cat cluster.tfvars
+          echo "*** End cluster.tfvars ***"
+          echo ""
+          echo "*** Start gitops.tfvars ***"
+          cat gitops.tfvars
+          echo "*** End gitops.tfvars ***"
+          echo ""
+          echo "*** Start turbonomic.tfvars ***"
+          cat turbonomic.tfvars
+          echo "*** End turbonomic.tfvars ***"
+          echo ""
+
+      - name: Terraform Apply - ${{ matrix.provider }}
+        shell: bash
+        run: |
+          cd ./workspaces/current
+          
+          ./apply.sh -a
+
+      - name: Validate Deploy - ${{ matrix.provider }}
+        run: |
+          export BIN_DIR=$(cd ./workspaces/current/bin; pwd -P)
+          
+          terragrunt run-all output -json > output.json
+          cat output.json
+          export KUBECONFIG=$(cat output.json | jq -r '.cluster_kubeconfig.value // empty | select(length > 0)')
+          
+          echo "KUBECONFIG: ${KUBECONFIG}"
+          
+          ./main/.github/scripts/validate-deploy.sh
+
+      - name: Terraform Destroy - ${{ matrix.provider }}
+        if: ${{ always() }}
+        run: |
+          cd ./workspaces/current
+          ./destroy-all.sh -y

@@ -1,3 +1,9 @@
+## server_url: The url for the OpenShift api
+#server_url=""
+
+## cluster_login_token: Token used for authentication
+#cluster_login_token=""
+
 ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
 #gitops-ocp-turbonomic_storage_class_name=""
 

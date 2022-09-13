@@ -1,5 +1,6 @@
+# Troubleshooting
 
-# Uninstalling
+## Uninstalling
 
 To uninstall this solution:
 
@@ -17,25 +18,7 @@ To uninstall this solution:
     terraform destroy --auto-approve
     ```
 
-# Troubleshooting
-
-## Credentials not working
-
-If you encounter unexpected behavior on login or see error message similar to the following, then its likely that your credentials are invalid.
-```
-The ApiKey property is invalid.  Please remove any surrounding {, }, or \" characters.
-```
-
-This normally happens if the credentials inside of the `credentials.properties` file are wrapped with quotes.   All values inside the `credentials.properties` should *not* be wrapped in quotes.
-
-To remedy this scenario:
-
-- If you are inside the container that is created using the `launch.sh` script, exit by using the `exit` command.
-- Modify the contents of the `credentials.properties` file and ensure that values are *not* wrapped in quotes.
-  - `TF_VAR_ibmcloud_api_key="ABCXYZ"` is **incorrect**
-  - `TF_VAR_ibmcloud_api_key=ABCXYZ` is **correct** 
-- Re-launch the `launch.sh` script.
-- Navigate to the `/workspaces/current` folder and continue the task where you encountered issues.
+  
 
 ## Variables may not be used here.
 
@@ -58,7 +41,15 @@ For example:
 - `cluster_login_token=ABCXYZ` is **incorrect**
 - `cluster_login_token="ABCXYZ"` is **correct**
 
+## IBM Cloud resource delay issues
 
+Occasionally, IBM Cloud will experience delays between when a resource is provisioned and when it is available for use. Most often this delay is short-lived (< 5 minutes) but at times the delays can be quite long. In the automation this issue is most often seen when clusters are provisioned using a COS instance that was newly provisioned. The resulting error is shown below:
+
+```
+Cluster was not created. Could not find the specified cloud object storage instance because it does not exist or the API key that is set for this resource group and region has inadequate permissions.
+```
+
+The best approach to fixing this issue is to re-run apply after the error.
 
 ## Intermittent network failures when using Colima
 

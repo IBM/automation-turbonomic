@@ -1,0 +1,14 @@
+########################################################
+# Name: GitOps Terraform Variable File
+# Desc: Initial input variables to support installation of gitops modules
+########################################################
+
+## gitops_repo_host: The host for the git repository. GitHub, GitHub Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea git servers are supported. If the value is left empty then Gitea will be used by default
+#gitops_repo_host="GIT_HOST"
+
+## gitops-repo_org: The org/group where the git repository exists/will be provisioned.
+## your gitorg - if left blank the value will default to your username
+#gitops_repo_org=""
+
+## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
+gitops_repo_repo="PREFIXmas-gitops"
