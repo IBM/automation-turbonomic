@@ -113,6 +113,7 @@ cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/.mocks" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
+mkdir -p "${WORKSPACE_DIR}/bin"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
