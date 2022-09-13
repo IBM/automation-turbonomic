@@ -154,7 +154,7 @@ jobs:
           
           terragrunt run-all output -json > output.json
           cat output.json
-          export KUBECONFIG=$(cat output.json | jq -r '.cluster_kubeconfig')
+          export KUBECONFIG=$(cat output.json | jq -r .cluster_kubeconfig.value // empty | select(length > 0))
           
           echo "KUBECONFIG: ${KUBECONFIG}"
           
