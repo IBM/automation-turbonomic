@@ -1,5 +1,9 @@
 # TechZone Automation - Turbonomic Automation for AWS, Azure, and IBM Cloud
 
+Created with the ***TechZone Accelerator Toolkit***
+
+> This collection of terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by Ecosystem Engineering
+
 ### Change Log
 
 - **08/2022** - Updated IBM Cloud Storage Class support
