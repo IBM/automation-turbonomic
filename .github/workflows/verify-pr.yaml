@@ -19,3 +19,10 @@ jobs:
       OPENSHIFT_PASSWORD: ${{ secrets.IBMCLOUD_API_KEY }}
       GITHUB_PAT: ${{ secrets.TOKEN }}
       GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
+
+  verifyAll:
+    needs: verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo 'Success'

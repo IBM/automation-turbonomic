@@ -77,7 +77,7 @@ jobs:
         run: |
           if [[ "${PROVIDER}" == "ibm" ]]; then
             REPO="automation-ibmcloud-infra-openshift"
-            REPO_BRANCH="update-layers"
+            REPO_BRANCH="main"
           elif [[ "${PROVIDER}" == "aws" ]]; then
             REPO="automation-aws-infra-openshift"
             REPO_BRANCH="main"

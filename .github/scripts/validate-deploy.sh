@@ -25,6 +25,10 @@ fi
 
 echo "*** Checking for Turbo resources ***"
 
-TURBO_NS="turbonomic"
-check_k8s_namespace "${TURBO_NS}"
-#check_k8s_resource "${TURBO_NS}" deployment mongodb-kubernetes-operator
+NAMESPACE="turbonomic"
+check_k8s_namespace "${NAMESPACE}"
+
+check_k8s_resource "${NAMESPACE}" deployment "t8c-operator"
+check_k8s_resource "${NAMESPACE}" xl "xl-release"
+
+kubectl get deployments -n "${NAMESPACE}"
