@@ -1,0 +1,59 @@
+name: Publish to Object Store
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download asset
+        id: variables
+        run: |
+          REPO="${{ github.event.repository.name }}"
+          NAME=$(echo "${REPO}" | sed -E 's~.*/~~g')
+          RELEASE="${{ github.event.release.tag_name }}"
+          MINOR=$(echo "${{ github.event.release.tag_name }}" | sed -E 's/([0-9]+[.][0-9]+)[.][0-9]+/\1/g')
+
+          ASSET_NAME="asset.zip"
+          curl -sLo "${ASSET_NAME}" "https://github.com/${REPO}/archive/refs/tags/${RELEASE}/${RELEASE}.zip"
+          
+          echo "bucket-name=public-solutions" >> $GITHUB_OUTPUT
+          echo "asset-name=${ASSET_NAME}" >> $GITHUB_OUTPUT
+          echo "latest-name=${NAME}-latest.zip" >> $GITHUB_OUTPUT
+          echo "minor-name=${NAME}-${MINOR}.zip" >> $GITHUB_OUTPUT
+          echo "release-name=${NAME}-${RELEASE}.zip" >> $GITHUB_OUTPUT
+
+      - name: Upload release file to bucket
+        uses: a-sync/s3-uploader@master
+        with:
+          args: --endpoint-url https://s3.us.cloud-object-storage.appdomain.cloud --acl public-read
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          S3_KEY: ${{ steps.variables.outputs.release-name }}
+          S3_BUCKET: ${{ steps.variables.outputs.bucket-name }}
+          FILE: ./${{ steps.variables.outputs.asset-name }}
+
+      - name: Upload minor file to bucket
+        uses: a-sync/s3-uploader@master
+        with:
+          args: --endpoint-url https://s3.us.cloud-object-storage.appdomain.cloud --acl public-read
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          S3_KEY: ${{ steps.variables.outputs.minor-name }}
+          S3_BUCKET: ${{ steps.variables.outputs.bucket-name }}
+          FILE: ./${{ steps.variables.outputs.asset-name }}
+
+      - name: Upload latest file to bucket
+        uses: a-sync/s3-uploader@master
+        with:
+          args: --endpoint-url https://s3.us.cloud-object-storage.appdomain.cloud --acl public-read
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          S3_KEY: ${{ steps.variables.outputs.latest-name }}
+          S3_BUCKET: ${{ steps.variables.outputs.bucket-name }}
+          FILE: ./${{ steps.variables.outputs.asset-name }}
