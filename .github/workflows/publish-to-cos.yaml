@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  notify:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Download asset
@@ -18,6 +18,8 @@ jobs:
 
           ASSET_NAME="asset.zip"
           curl -sLo "${ASSET_NAME}" "https://github.com/${REPO}/archive/refs/tags/${RELEASE}/${RELEASE}.zip"
+          
+          unzip -t "${ASSET_NAME}" || exit 1
           
           echo "bucket-name=public-solutions" >> $GITHUB_OUTPUT
           echo "asset-name=${ASSET_NAME}" >> $GITHUB_OUTPUT
