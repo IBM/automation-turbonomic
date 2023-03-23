@@ -1,5 +1,5 @@
 module "argocd-bootstrap" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.12.0"
+  source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap?ref=v1.13.1"
 
   bootstrap_path = module.gitops_repo.bootstrap_path
   bootstrap_prefix = var.argocd-bootstrap_bootstrap_prefix
