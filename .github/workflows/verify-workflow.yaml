@@ -87,10 +87,10 @@ jobs:
           fi
           
           echo "Repo: ${REPO}"
-          echo "::set-output name=infra-repo::$REPO"
+          echo "infra-repo=$REPO" >> "$GITHUB_OUTPUT"
           
           echo "Repo branch: ${REPO_BRANCH}"
-          echo "::set-output name=infra-repo-branch::$REPO_BRANCH"
+          echo "infra-repo-branch=$REPO_BRANCH" >> "$GITHUB_OUTPUT"
           
           RANDOM_PREFIX=$(echo $RANDOM | md5sum | head -c 5; echo)
           FLAVOR_CHAR=$(echo "${FLAVOR}" | fold -w ${1:-1} | head -n 1)
@@ -100,7 +100,7 @@ jobs:
           NAME_PREFIX="${PROVIDER_CHAR}${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}"
           
           echo "Name prefix: $NAME_PREFIX"
-          echo "::set-output name=name-prefix::$NAME_PREFIX"
+          echo "name-prefix=$NAME_PREFIX" >> "$GITHUB_OUTPUT"
 
       - name: Checkout
         uses: actions/checkout@v3
